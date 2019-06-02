@@ -11,6 +11,7 @@
     <module>database</module>
     <module>parkingmeter-rest</module>
       <module>parkingplaces-soap</module>
+      <module>front-rest</module>
   </modules>
   <packaging>pom</packaging>
 
