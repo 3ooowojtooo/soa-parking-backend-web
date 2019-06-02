@@ -12,6 +12,7 @@
     <module>parkingmeter-rest</module>
       <module>parkingplaces-soap</module>
       <module>front-rest</module>
+      <module>external-rest</module>
   </modules>
   <packaging>pom</packaging>
 
