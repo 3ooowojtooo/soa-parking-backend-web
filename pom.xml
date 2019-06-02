@@ -10,6 +10,7 @@
   <modules>
     <module>database</module>
     <module>parkingmeter-rest</module>
+      <module>parkingplaces-soap</module>
   </modules>
   <packaging>pom</packaging>
 
