@@ -14,6 +14,7 @@
         <module>front-rest</module>
         <module>external-rest</module>
         <module>events</module>
+        <module>mobilenotifications</module>
     </modules>
     <packaging>pom</packaging>
 
