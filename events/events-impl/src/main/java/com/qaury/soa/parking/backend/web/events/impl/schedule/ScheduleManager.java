@@ -1,10 +1,5 @@
 package com.qaury.soa.parking.backend.web.events.impl.schedule;
 
-import com.qaury.soa.parking.backend.web.events.api.schedule.IScheduleHandlerLocal;
-import com.qaury.soa.parking.backend.web.events.api.schedule.IScheduleManagerLocal;
-import com.qaury.soa.parking.backend.web.events.api.schedule.IScheduleManagerRemote;
-import com.qaury.soa.parking.backend.web.events.api.schedule.IScheduleManager;
-
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.*;
@@ -13,12 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Singleton
-@Local(IScheduleManagerLocal.class)
-@Remote(IScheduleManagerRemote.class)
-public class ScheduleManager implements IScheduleManager {
+public class ScheduleManager {
 
-    @EJB(lookup = "java:global/events-impl/ScheduleHandler!com.qaury.soa.parking.backend.web.events.api.schedule.IScheduleHandlerLocal")
-    private IScheduleHandlerLocal scheduleHandler;
+    @EJB
+    private ScheduleHandler scheduleHandler;
 
     @Resource
     private TimerService timerService;
@@ -33,25 +26,21 @@ public class ScheduleManager implements IScheduleManager {
         ticketExpireTimersMap = new HashMap<>();
     }
 
-    @Override
     public void addTicketPurchaseTimer(int placeId, Date timeToBuyTicket) {
         TimerHandle timerHandle = timerService.createSingleActionTimer(timeToBuyTicket, new TimerConfig()).getHandle();
         ticketPurchaseTimersMap.putIfAbsent(timerHandle, placeId);
     }
 
-    @Override
     public void removeTicketPurchaseTimerIfExists(int placeId) {
        cancelTimerAndRemoveFromMap(ticketPurchaseTimersMap, placeId);
     }
 
-    @Override
     public void addTicketExpireTimer(int placeId, Date ticketExpirationTime) {
         cancelTimerAndRemoveFromMap(ticketExpireTimersMap, placeId);
         TimerHandle timerHandle = timerService.createSingleActionTimer(ticketExpirationTime, new TimerConfig()).getHandle();
         ticketExpireTimersMap.put(timerHandle, placeId);
     }
 
-    @Override
     public void removeTicketExpireTimerIfExists(int placeId) {
         cancelTimerAndRemoveFromMap(ticketExpireTimersMap, placeId);
     }
@@ -61,12 +50,12 @@ public class ScheduleManager implements IScheduleManager {
         TimerHandle timerHandle = timer.getHandle();
         if (ticketPurchaseTimersMap.containsKey(timerHandle)) {
             Integer placeId = ticketPurchaseTimersMap.get(timerHandle);
-            scheduleHandler.handleTicketPurchaseTimeout(placeId);
             ticketPurchaseTimersMap.remove(timerHandle);
+            scheduleHandler.handleTicketPurchaseTimeout(placeId);
         } else if (ticketExpireTimersMap.containsKey(timerHandle)) {
             Integer placeId = ticketExpireTimersMap.get(timerHandle);
-            scheduleHandler.handleTicketExpireTimeout(placeId);
             ticketExpireTimersMap.remove(timerHandle);
+            scheduleHandler.handleTicketExpireTimeout(placeId);
         }
     }
 

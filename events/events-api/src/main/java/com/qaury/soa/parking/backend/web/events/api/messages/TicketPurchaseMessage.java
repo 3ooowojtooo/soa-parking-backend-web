@@ -1,4 +1,4 @@
-package com.qaury.soa.parking.backend.web.events.api;
+package com.qaury.soa.parking.backend.web.events.api.messages;
 
 import java.io.Serializable;
 import java.util.Date;

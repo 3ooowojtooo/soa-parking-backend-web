@@ -1,10 +1,14 @@
 package com.qaury.soa.parking.backend.web.events.impl.jms;
 
-import com.qaury.soa.parking.backend.web.events.api.ParkingPlaceStatusUpdateMessage;
-import com.qaury.soa.parking.backend.web.events.api.TicketPurchaseMessage;
+import com.qaury.soa.parking.backend.web.events.api.messages.ParkingPlaceStatusUpdateMessage;
+import com.qaury.soa.parking.backend.web.events.api.messages.TicketPurchaseMessage;
+import com.qaury.soa.parking.backend.web.events.impl.service.ParkingPlaceStatusUpdateMessageHandler;
+import com.qaury.soa.parking.backend.web.events.impl.service.TicketPurchaseMessageHandler;
 
 import javax.ejb.ActivationConfigProperty;
+import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
+import javax.enterprise.context.ApplicationScoped;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
@@ -20,7 +24,14 @@ import java.io.Serializable;
                         propertyValue = "java:global/jms/queue/SOAParkingEventsQueue")
         }
 )
+@ApplicationScoped
 public class EventsQueueListener implements MessageListener {
+
+    @EJB
+    private ParkingPlaceStatusUpdateMessageHandler parkingPlaceStatusUpdateMessageHandler;
+
+    @EJB
+    private TicketPurchaseMessageHandler ticketPurchaseMessageHandler;
 
     @Override
     public void onMessage(Message message) {
@@ -29,12 +40,15 @@ public class EventsQueueListener implements MessageListener {
             Serializable sendObject = objectMessage.getObject();
             if (sendObject instanceof TicketPurchaseMessage) {
                 System.out.println("ticket purchase");
+                ticketPurchaseMessageHandler.handle((TicketPurchaseMessage)sendObject);
             } else if (sendObject instanceof ParkingPlaceStatusUpdateMessage) {
                 System.out.println("place status update");
+                parkingPlaceStatusUpdateMessageHandler.handle((ParkingPlaceStatusUpdateMessage)sendObject);
             }
         } catch (JMSException e) {
             System.out.println(e.getMessage());
         }
 
     }
+
 }
