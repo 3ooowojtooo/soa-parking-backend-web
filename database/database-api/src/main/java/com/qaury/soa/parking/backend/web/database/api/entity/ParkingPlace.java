@@ -1,18 +1,20 @@
 package com.qaury.soa.parking.backend.web.database.api.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "parking_places")
-public class ParkingPlace {
+public class ParkingPlace implements Serializable {
 
     @Id
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "zone_id")
     private Zone zone;
 
@@ -22,8 +24,8 @@ public class ParkingPlace {
     @Column(name = "time_for_ticket_purchase")
     private Date timeForTicketPurchase;
 
-    @OneToMany(mappedBy = "parkingPlace", cascade = CascadeType.ALL)
-    private List<Ticket> ticketList;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parkingPlace", cascade = CascadeType.ALL)
+    private Set<Ticket> ticketList;
 
     public ParkingPlace() {
     }
@@ -66,11 +68,11 @@ public class ParkingPlace {
         this.timeForTicketPurchase = timeForTicketPurchase;
     }
 
-    public List<Ticket> getTicketList() {
+    public Set<Ticket> getTicketList() {
         return ticketList;
     }
 
-    public void setTicketList(List<Ticket> ticketList) {
+    public void setTicketList(Set<Ticket> ticketList) {
         this.ticketList = ticketList;
     }
 

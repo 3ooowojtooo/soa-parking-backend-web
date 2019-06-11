@@ -7,7 +7,7 @@
 
   <servlet>
     <servlet-name>SOAPServlet</servlet-name>
-    <servlet-class>com.qaury.soa.parking.backend.web.parkingplacessoap.webservice.TestServiceImpl</servlet-class>
+    <servlet-class>com.qaury.soa.parking.backend.web.parkingplacessoap.webservice.SOAPParkingPlacesServiceImpl</servlet-class>
   </servlet>
 
   <servlet-mapping>

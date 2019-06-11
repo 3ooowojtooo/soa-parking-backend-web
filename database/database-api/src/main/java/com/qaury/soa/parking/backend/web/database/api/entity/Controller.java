@@ -1,10 +1,11 @@
 package com.qaury.soa.parking.backend.web.database.api.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "controllers")
-public class Controller {
+public class Controller implements Serializable {
 
     @Id
     @Column(name = "id")
@@ -13,7 +14,7 @@ public class Controller {
     @Column(name = "auth_id", nullable = false, unique = true)
     private String authId;
 
-    @OneToOne(mappedBy = "controller", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "controller", cascade = CascadeType.ALL)
     private Zone zone;
 
     public Controller() {
