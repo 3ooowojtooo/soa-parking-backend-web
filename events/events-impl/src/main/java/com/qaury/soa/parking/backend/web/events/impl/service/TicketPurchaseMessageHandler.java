@@ -38,6 +38,8 @@ public class TicketPurchaseMessageHandler {
         Ticket ticket = new Ticket(message.getTimestampFrom(), message.getTimestampTo());
         parkingPlace.addTicket(ticket);
         ticketRemoteDAO.persist(ticket);
+        parkingPlaceRemoteDAO.setPlaceTicketNotPurchased(message.getPlaceId(), false);
+        parkingPlaceRemoteDAO.setPlaceTicketExpired(message.getPlaceId(), false);
     }
 
     private void handleSchedulers(TicketPurchaseMessage message) {

@@ -1,6 +1,6 @@
 package com.qaury.soa.parking.backend.web.mobilenotifications.rest;
 
-import com.qaury.soa.parking.backend.web.mobilenotifications.rest.controller.TestController;
+import com.qaury.soa.parking.backend.web.mobilenotifications.rest.controller.MobileNotificationVerifierController;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.ApplicationPath;
@@ -15,7 +15,7 @@ public class MobileNotificationsRestApplication extends Application {
 
     @PostConstruct
     public void init() {
-        singletons.add(new TestController());
+        singletons.add(new MobileNotificationVerifierController());
     }
 
     @Override

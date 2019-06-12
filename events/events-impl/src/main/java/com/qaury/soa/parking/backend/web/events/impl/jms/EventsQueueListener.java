@@ -24,7 +24,6 @@ import java.io.Serializable;
                         propertyValue = "java:global/jms/queue/SOAParkingEventsQueue")
         }
 )
-@ApplicationScoped
 public class EventsQueueListener implements MessageListener {
 
     @EJB
