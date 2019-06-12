@@ -19,7 +19,9 @@ public class ChangeParkingPlaceStatusService {
     private JMSContext jmsContext;
 
     public void changeParkingPlaceStatus(int placeId, long timestamp, boolean occupied) {
-        sendEventNotification(placeId, timestamp, occupied);
+        //sendEventNotification(placeId, timestamp, occupied);
+        System.out.println("SOAP: Change parking place status.");
+        sendEventNotification(placeId, new Date().getTime(), occupied);
     }
 
     @Inject

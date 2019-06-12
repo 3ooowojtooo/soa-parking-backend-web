@@ -41,6 +41,7 @@ public class TicketPurchaseMessageHandler {
     }
 
     private void handleSchedulers(TicketPurchaseMessage message) {
+        scheduleManager.removeTicketPurchaseTimerIfExists(message.getPlaceId());
         scheduleManager.addTicketExpireTimer(message.getPlaceId(), message.getTimestampTo());
     }
 

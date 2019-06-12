@@ -9,8 +9,9 @@ import java.util.Date;
 public class Ticket implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ticketsGenerator")
-    @SequenceGenerator(name = "ticketsGenerator", sequenceName = "tickets_sequence", allocationSize = 1)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ticketsGenerator")
+//    @SequenceGenerator(name = "ticketsGenerator", sequenceName = "tickets_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 

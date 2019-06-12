@@ -31,7 +31,9 @@ CREATE TABLE IF NOT EXISTS parking_places
   id integer PRIMARY KEY,
   zone_id integer not null references zones(id),
   occupied boolean not null default false,
-  time_for_ticket_purchase timestamp default null
+  time_for_ticket_purchase timestamp default null,
+  not_purchased_notification boolean not null default false,
+  ticket_expire_notification boolean not null default false
 );
 
 CREATE TABLE IF NOT EXISTS tickets
