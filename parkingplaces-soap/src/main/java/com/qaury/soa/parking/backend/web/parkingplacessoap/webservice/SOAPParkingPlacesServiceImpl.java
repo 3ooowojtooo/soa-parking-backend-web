@@ -5,6 +5,7 @@ import com.qaury.soa.parking.backend.web.parkingplacessoap.service.ChangeParking
 import javax.inject.Inject;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import java.util.Date;
 
 @WebService(endpointInterface = "com.qaury.soa.parking.backend.web.parkingplacessoap.webservice.SOAPParkingPlacesService")
 public class SOAPParkingPlacesServiceImpl implements SOAPParkingPlacesService {
@@ -13,8 +14,8 @@ public class SOAPParkingPlacesServiceImpl implements SOAPParkingPlacesService {
 
     @Override
     @WebMethod
-    public void changeParkingPlaceState(Integer placeId, Long timestamp, Boolean occupied) {
-        changeParkingPlaceStatusService.changeParkingPlaceStatus(placeId, timestamp, occupied);
+    public void changeParkingPlaceState(Integer placeId, Boolean occupied) {
+        changeParkingPlaceStatusService.changeParkingPlaceStatus(placeId, new Date().getTime(), occupied);
     }
 
     @Inject

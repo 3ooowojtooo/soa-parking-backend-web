@@ -11,6 +11,5 @@ public interface SOAPParkingPlacesService {
 
     @WebMethod
     void changeParkingPlaceState(@WebParam(name = "placeId") Integer placeId,
-                                 @WebParam(name = "timestamp") Long timestamp,
                                  @WebParam(name = "occupied") Boolean occupied);
 }

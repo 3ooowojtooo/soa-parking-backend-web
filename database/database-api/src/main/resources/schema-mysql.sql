@@ -3,17 +3,26 @@ DROP TABLE IF EXISTS tickets cascade ;
 DROP TABLE IF EXISTS parking_places CASCADE ;
 DROP TABLE IF EXISTS zones CASCADE ;
 DROP TABLE IF EXISTS controllers CASCADE ;
+DROP TABLE IF EXISTS auth CASCADE ;
+
+CREATE TABLE IF NOT EXISTS auth
+(
+    id int not null unique,
+    role varchar(20) not null,
+    login varchar(30) not null unique,
+    password varchar(50) not null
+);
 
 CREATE TABLE IF NOT EXISTS controllers
   (
       id INT NOT NULL PRIMARY KEY ,
-      auth_id VARCHAR(50) NOT NULL UNIQUE
+      auth_id int not null references auth(id)
   );
 
 CREATE TABLE IF NOT EXISTS admins
 (
     id INT NOT NULL PRIMARY KEY,
-    auth_id VARCHAR(50) NOT NULL UNIQUE
+    auth_id INT NOT NULL references auth(id)
 );
 
 CREATE TABLE IF NOT EXISTS zones
@@ -41,4 +50,12 @@ CREATE TABLE IF NOT EXISTS tickets
     time_from TIMESTAMP DEFAULT current_timestamp,
     time_to TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     foreign key (place_id) references parking_places(id)
+);
+
+CREATE TABLE IF NOT EXISTS auth
+(
+  id int not null unique,
+  role varchar(20) not null,
+  login varchar(30) not null unique,
+  password varchar(50) not null
 );

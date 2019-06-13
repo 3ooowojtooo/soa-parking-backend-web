@@ -1,8 +1,12 @@
+insert into auth (id, role, login, password)
+values (1, 'Controller', 'testc1', 'testc1'), (2, 'Controller', 'testc2', 'testc2'), (3, 'Controller', 'testc3', 'testc3'),
+       (4, 'Admin', 'testa1', 'testa1');
+
 insert into controllers(id, auth_id) values
-(1, 'auth0|1'), (2, 'auth0|2'), (3, 'auth0|3');
+(1, 1), (2,2), (3, 3);
 
 insert into admins(id, auth_id) values
-(1, 'auth0|1001');
+(1, 4);
 
 insert into zones(id, description, controller_id) values
 (1, 'ul. Cechowa', 1), (2, 'ul. Wolna', 2), (3, 'ul. Prezydencka', 3);
