@@ -17,6 +17,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
+import java.util.List;
 
 @Singleton
 @Local(IParkingPlaceLocalDAO.class)
@@ -36,13 +37,12 @@ public class ParkingPlaceDAO extends BaseDAO<ParkingPlace> implements IParkingPl
     }
 
     @Override
-    public Controller findControllerForParkingPlace(int placeId) {
+    public Integer findControllerIdForParkingPlace(int placeId) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Controller> cq = cb.createQuery(Controller.class);
-        Root<Controller> root = cq.from(Controller.class);
-        //cq.select(root).where(root.get("zone").get("parkingPlaceList").get("id").in(placeId));
-        cq.select(root);
-        return getEntityManager().createQuery(cq).getResultList().get(0);
+        CriteriaQuery<Integer> cq = cb.createQuery(Integer.class);
+        Root<ParkingPlace> root = cq.from(ParkingPlace.class);
+        cq.select(root.get("zone").get("controller").get("id")).where(cb.equal(root.get("id"), placeId));
+        return getEntityManager().createQuery(cq).getSingleResult();
     }
 
     @Override
@@ -85,5 +85,25 @@ public class ParkingPlaceDAO extends BaseDAO<ParkingPlace> implements IParkingPl
         Root<ParkingPlace> root = cu.from(ParkingPlace.class);
         cu.set(root.get("ticketExpireNotification"), state).where(cb.equal(root.get("id"), placeId));
         getEntityManager().createQuery(cu).executeUpdate();
+    }
+
+    @Override
+    public List<Object[]> getFreePlacesInfo() {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
+        Root<ParkingPlace> root = cq.from(ParkingPlace.class);
+        cq.multiselect(root.get("zone").get("description"), cb.count(root)).
+                where(cb.equal(root.get("occupied"), false)).
+                groupBy(root.get("zone").get("description"));
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+
+    public List<Object[]> getPlacesCount() {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
+        Root<ParkingPlace> root = cq.from(ParkingPlace.class);
+        cq.multiselect(root.get("zone").get("description"), cb.count(root)).
+                groupBy(root.get("zone").get("description"));
+        return getEntityManager().createQuery(cq).getResultList();
     }
 }

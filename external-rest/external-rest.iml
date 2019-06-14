@@ -22,6 +22,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="dataapi" />
     <orderEntry type="module" module-name="database-api" />
     <orderEntry type="library" name="Maven: javax.persistence:javax.persistence-api:2.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.8" level="project" />

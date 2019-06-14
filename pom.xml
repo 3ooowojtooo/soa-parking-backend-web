@@ -11,11 +11,11 @@
         <module>database</module>
         <module>parkingmeter-rest</module>
         <module>parkingplaces-soap</module>
-        <module>front-rest</module>
         <module>external-rest</module>
         <module>events</module>
         <module>mobilenotifications</module>
         <module>frontend</module>
+        <module>data</module>
     </modules>
     <packaging>pom</packaging>
 

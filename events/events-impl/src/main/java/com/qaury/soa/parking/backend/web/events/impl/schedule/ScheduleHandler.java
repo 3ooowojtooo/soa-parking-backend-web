@@ -27,8 +27,8 @@ public class ScheduleHandler {
 
     public void handleTicketPurchaseTimeout(Integer placeId) {
         parkingPlaceDAO.setPlaceTicketNotPurchased(placeId, true);
-        Controller controller = parkingPlaceDAO.findControllerForParkingPlace(placeId);
-        TicketNotPurchasedMessage ticketNotPurchasedMessage = new TicketNotPurchasedMessage(controller.getId(), placeId);
+        Integer controllerId = parkingPlaceDAO.findControllerIdForParkingPlace(placeId);
+        TicketNotPurchasedMessage ticketNotPurchasedMessage = new TicketNotPurchasedMessage(controllerId, placeId);
         ObjectMessage objectMessage = jmsContext.createObjectMessage(ticketNotPurchasedMessage);
         jmsContext.createProducer().send(mobileNotificationsQueue, objectMessage);
 
@@ -36,8 +36,8 @@ public class ScheduleHandler {
 
     public void handleTicketExpireTimeout(Integer placeId) {
         parkingPlaceDAO.setPlaceTicketExpired(placeId, true);
-        Controller controller = parkingPlaceDAO.findControllerForParkingPlace(placeId);
-        TicketExpiredMessage ticketExpiredMessage = new TicketExpiredMessage(controller.getId(), placeId);
+        Integer controllerId = parkingPlaceDAO.findControllerIdForParkingPlace(placeId);
+        TicketExpiredMessage ticketExpiredMessage = new TicketExpiredMessage(controllerId, placeId);
         ObjectMessage objectMessage = jmsContext.createObjectMessage(ticketExpiredMessage);
         jmsContext.createProducer().send(mobileNotificationsQueue, objectMessage);
     }

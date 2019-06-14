@@ -38,7 +38,7 @@ public class NotificationsHandler {
             System.out.println("handleTicketExpiredMessage");
             Response<StateResponse> response = restService.isInTicketExpiredState(message.getPlaceId()).execute();
             if (response.isSuccessful() && response.body() != null && response.body().isState()) {
-                notificationsChannel.send("Ticket expiration: placeId=" + message.getPlaceId());
+                notificationsChannel.send("Ticket expiration: placeId=" + message.getPlaceId() + ", controllerId=" + message.getControllerId());
             }
         } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
@@ -50,7 +50,7 @@ public class NotificationsHandler {
             System.out.println("handleTicketNotPurchasedMessage");
             Response<StateResponse> response = restService.isInTicketNotPurchasedState(message.getPlaceId()).execute();
             if (response.isSuccessful() && response.body() != null && response.body().isState()) {
-                notificationsChannel.send("Ticket not purchased: placeId=" + message.getPlaceId());
+                notificationsChannel.send("Ticket not purchased: placeId=" + message.getPlaceId() + ", controllerId=" + message.getControllerId());
             }
         } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
