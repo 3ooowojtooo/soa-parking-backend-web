@@ -15,6 +15,7 @@
         <module>external-rest</module>
         <module>events</module>
         <module>mobilenotifications</module>
+        <module>frontend</module>
     </modules>
     <packaging>pom</packaging>
 
