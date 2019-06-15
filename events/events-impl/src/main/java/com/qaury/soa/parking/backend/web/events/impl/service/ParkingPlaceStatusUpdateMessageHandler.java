@@ -13,7 +13,7 @@ import java.util.Date;
 @Singleton
 public class ParkingPlaceStatusUpdateMessageHandler {
 
-    private static final int SECONDS_TO_BUY_TICKET_AFTER_OCCUPY = 4;
+    private static final int SECONDS_TO_BUY_TICKET_AFTER_OCCUPY = 20;
 
     @EJB(lookup = "java:global/database-impl/ParkingPlaceDAO!com.qaury.soa.parking.backend.web.database.api.dao.IParkingPlaceRemoteDAO")
     private IParkingPlaceRemoteDAO parkingPlaceRemoteDAO;
