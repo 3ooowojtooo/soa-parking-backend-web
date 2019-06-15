@@ -1,4 +1,4 @@
-package com.qaury.soa.parking.backend.web.frontend;
+package com.qaury.soa.parking.backend.web.frontend.front;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

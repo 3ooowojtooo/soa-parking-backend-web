@@ -4,6 +4,11 @@
 
 <web-app>
 
+  <context-param>
+    <param-name>javax.faces.ENABLE_WEBSOCKET_ENDPOINT</param-name>
+    <param-value>true</param-value>
+  </context-param>
+
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Name</web-resource-name>

@@ -24,10 +24,14 @@ public class ParkingPlaceStatusUpdateMessageHandler {
     @EJB
     private ScheduleManager scheduleManager;
 
+    @EJB
+    private DashboardNotificationSender dashboardNotificationSender;
+
     public void handle(ParkingPlaceStatusUpdateMessage message) {
         if (parkingPlaceExists(message.getPlaceId())) {
             updateParkingPlaceStatusInDatabase(message);
             handleSchedulers(message);
+            sendDashboardNotification(message);
         }
     }
 
@@ -54,6 +58,10 @@ public class ParkingPlaceStatusUpdateMessageHandler {
             scheduleManager.removeTicketPurchaseTimerIfExists(message.getPlaceId());
             scheduleManager.removeTicketExpireTimerIfExists(message.getPlaceId());
         }
+    }
+
+    private void sendDashboardNotification(ParkingPlaceStatusUpdateMessage message) {
+        dashboardNotificationSender.sendDashboardParkingPlaceUpdate(message.getPlaceId());
     }
 
 }

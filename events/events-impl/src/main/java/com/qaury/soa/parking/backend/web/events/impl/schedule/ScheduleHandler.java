@@ -2,6 +2,7 @@ package com.qaury.soa.parking.backend.web.events.impl.schedule;
 
 import com.qaury.soa.parking.backend.web.database.api.dao.IParkingPlaceRemoteDAO;
 import com.qaury.soa.parking.backend.web.database.api.entity.Controller;
+import com.qaury.soa.parking.backend.web.events.impl.service.DashboardNotificationSender;
 import com.qaury.soa.parking.backend.web.mobilenotifications.api.messages.TicketExpiredMessage;
 import com.qaury.soa.parking.backend.web.mobilenotifications.api.messages.TicketNotPurchasedMessage;
 
@@ -25,13 +26,16 @@ public class ScheduleHandler {
     @Inject
     JMSContext jmsContext;
 
+    @EJB
+    private DashboardNotificationSender dashboardNotificationSender;
+
     public void handleTicketPurchaseTimeout(Integer placeId) {
         parkingPlaceDAO.setPlaceTicketNotPurchased(placeId, true);
         Integer controllerId = parkingPlaceDAO.findControllerIdForParkingPlace(placeId);
         TicketNotPurchasedMessage ticketNotPurchasedMessage = new TicketNotPurchasedMessage(controllerId, placeId);
         ObjectMessage objectMessage = jmsContext.createObjectMessage(ticketNotPurchasedMessage);
         jmsContext.createProducer().send(mobileNotificationsQueue, objectMessage);
-
+        dashboardNotificationSender.sendDashboardParkingPlaceUpdate(placeId);
     }
 
     public void handleTicketExpireTimeout(Integer placeId) {
@@ -40,5 +44,6 @@ public class ScheduleHandler {
         TicketExpiredMessage ticketExpiredMessage = new TicketExpiredMessage(controllerId, placeId);
         ObjectMessage objectMessage = jmsContext.createObjectMessage(ticketExpiredMessage);
         jmsContext.createProducer().send(mobileNotificationsQueue, objectMessage);
+        dashboardNotificationSender.sendDashboardParkingPlaceUpdate(placeId);
     }
 }

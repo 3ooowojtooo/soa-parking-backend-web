@@ -7,9 +7,20 @@
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
+    <h:outputScript>
+        function notificationListener(message, channel, event) {
+            window.alert(message);
+        }
+    </h:outputScript>
 
 </h:head>
 <h:body>
+    <f:websocket channel="adminDashboardChannel" rendered="#{frontBean.shouldAdminChannelBeRendered()}" onmessage="notificationListener"/>
+    <f:websocket channel="controllerDashboardChannel" rendered="#{frontBean.shouldControllerChannelBeRendered()}" onmessage="notificationListener"
+                 user="#{frontBean.userPrincipal}"/>
     <h:outputLabel value="#{frontBean.test()}" />
+    <h:outputLabel value="#{frontBean.shouldAdminChannelBeRendered()}" />
+    <h:outputLabel value="#{frontBean.shouldControllerChannelBeRendered()}" />
+    <h:outputLabel value="#{frontBean.userPrincipal}"/>
 </h:body>
 </html>

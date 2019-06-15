@@ -22,10 +22,14 @@ public class TicketPurchaseMessageHandler {
     @EJB
     private ScheduleManager scheduleManager;
 
+    @EJB
+    private DashboardNotificationSender dashboardNotificationSender;
+
     public void handle(TicketPurchaseMessage message) {
         if (placeExists(message.getPlaceId())) {
             addTicketToDatabase(message);
             handleSchedulers(message);
+            sendDashboardNotification(message);
         }
     }
 
@@ -45,6 +49,10 @@ public class TicketPurchaseMessageHandler {
     private void handleSchedulers(TicketPurchaseMessage message) {
         scheduleManager.removeTicketPurchaseTimerIfExists(message.getPlaceId());
         scheduleManager.addTicketExpireTimer(message.getPlaceId(), message.getTimestampTo());
+    }
+
+    private void sendDashboardNotification(TicketPurchaseMessage message) {
+        dashboardNotificationSender.sendDashboardParkingPlaceUpdate(message.getPlaceId());
     }
 
 }

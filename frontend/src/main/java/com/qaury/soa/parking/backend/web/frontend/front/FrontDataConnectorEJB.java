@@ -1,4 +1,4 @@
-package com.qaury.soa.parking.backend.web.frontend;
+package com.qaury.soa.parking.backend.web.frontend.front;
 
 import com.qaury.soa.parking.backend.web.database.api.dao.IAuthRemoteDAO;
 import com.qaury.soa.parking.backend.web.database.api.entity.Zone;
@@ -34,6 +34,10 @@ public class FrontDataConnectorEJB {
 
     private String hashPassword(String plainTextPassword) {
         return Util.createPasswordHash("MD5", Util.BASE64_ENCODING, null, null, plainTextPassword);
+    }
+
+    public void test() {
+        System.out.println("xdL : " + sessionContext.getCallerPrincipal().getName());
     }
 
 }
