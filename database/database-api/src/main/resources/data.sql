@@ -1,6 +1,6 @@
 insert into auth (id, role, login, password)
-values (1, 'Controller', 'testc1', 'testc1'), (2, 'Controller', 'testc2', 'testc2'), (3, 'Controller', 'testc3', 'testc3'),
-       (4, 'Admin', 'testa1', 'testa1');
+values (1, 'Controller', 'testc1', 'K8luZreNXTRnGY+Bo0IP4w=='), (2, 'Controller', 'testc2', 'cKWq+4W5x4i7K5MDwaJezQ=='), (3, 'Controller', 'testc3', 'SBxFVn1LVEEDqlxa0lt/tQ=='),
+       (4, 'Admin', 'testa1', 'Pva7aWNEMuH86SqrIUTDNQ==');
 
 insert into controllers(id, auth_id) values
 (1, 1), (2,2), (3, 3);

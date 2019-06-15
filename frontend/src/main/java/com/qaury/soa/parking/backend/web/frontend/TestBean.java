@@ -12,6 +12,6 @@ public class TestBean {
     private TestEJB testEJB;
 
     public String test() {
-        return testEJB.test();
+        return testEJB.getZonesForLoggedUser().size() + " xd";
     }
 }

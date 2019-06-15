@@ -1,7 +1,6 @@
 package com.quary.soa.parking.backend.data.impl.external;
 
 import com.qaury.soa.parking.backend.web.database.api.dao.IParkingPlaceRemoteDAO;
-import com.qaury.soa.parking.backend.web.database.api.dao.IZoneRemoteDAO;
 import com.quary.soa.parking.backend.data.api.external.IExternalDataService;
 import com.quary.soa.parking.backend.data.api.external.IExternalDataServiceLocal;
 import com.quary.soa.parking.backend.data.api.external.IExternalDataServiceRemote;

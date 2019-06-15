@@ -12,6 +12,7 @@
     </web-resource-collection>
     <auth-constraint>
       <role-name>Controller</role-name>
+      <role-name>Admin</role-name>
     </auth-constraint>
   </security-constraint>
   <login-config>
@@ -20,5 +21,8 @@
   </login-config>
   <security-role>
     <role-name>Controller</role-name>
+  </security-role>
+  <security-role>
+    <role-name>Admin</role-name>
   </security-role>
 </web-app>
