@@ -16,6 +16,7 @@
         <module>mobilenotifications</module>
         <module>frontend</module>
         <module>data</module>
+        <module>external-soap</module>
     </modules>
     <packaging>pom</packaging>
 

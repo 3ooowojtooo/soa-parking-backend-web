@@ -6,12 +6,12 @@ import javax.inject.Named;
 
 @Named
 @ApplicationScoped
-public class TestBean {
+public class FrontBean {
 
     @EJB
-    private TestEJB testEJB;
+    private FrontDataConnectorEJB testEJB;
 
     public String test() {
-        return testEJB.getZonesForLoggedUser().size() + " xd";
+        return String.valueOf(testEJB.getZonesForLoggedUser().size());
     }
 }
