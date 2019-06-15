@@ -13,9 +13,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>mobilenotifications-api</module>
-        <module>mobilenotifications-impl</module>
         <module>mobilenotifications-rest</module>
+        <module>mobilenotifications-webapp</module>
     </modules>
-
 
 </project>

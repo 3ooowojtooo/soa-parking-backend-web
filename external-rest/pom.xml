@@ -13,6 +13,18 @@
     <packaging>war</packaging>
 
     <dependencies>
+        <dependency>
+            <groupId>com.quary.soa.parking.backend</groupId>
+            <artifactId>data-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.quary.soa.parking.backend</groupId>
+            <artifactId>database-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

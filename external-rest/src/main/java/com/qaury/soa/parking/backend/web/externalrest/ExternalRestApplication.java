@@ -1,6 +1,6 @@
 package com.qaury.soa.parking.backend.web.externalrest;
 
-import com.qaury.soa.parking.backend.web.externalrest.controller.TestController;
+import com.qaury.soa.parking.backend.web.externalrest.controller.ExternalInfoController;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.ApplicationPath;
@@ -15,7 +15,7 @@ public class ExternalRestApplication extends Application {
 
     @PostConstruct
     public void init() {
-        singletons.add(new TestController());
+        singletons.add(new ExternalInfoController());
     }
 
     @Override

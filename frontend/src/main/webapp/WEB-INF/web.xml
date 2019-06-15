@@ -1,0 +1,28 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Name</web-resource-name>
+      <url-pattern>/*</url-pattern>
+      <http-method>GET</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>Controller</role-name>
+      <role-name>Admin</role-name>
+    </auth-constraint>
+  </security-constraint>
+  <login-config>
+    <auth-method>BASIC</auth-method>
+    <realm-name>file</realm-name>
+  </login-config>
+  <security-role>
+    <role-name>Controller</role-name>
+  </security-role>
+  <security-role>
+    <role-name>Admin</role-name>
+  </security-role>
+</web-app>

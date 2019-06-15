@@ -1,6 +1,6 @@
 package com.qaury.soa.parking.backend.web.parkingmeterrest;
 
-import com.qaury.soa.parking.backend.web.parkingmeterrest.controller.TestController;
+import com.qaury.soa.parking.backend.web.parkingmeterrest.controller.ParkingMeterRestController;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.ApplicationPath;
@@ -15,7 +15,7 @@ public class ParkingMeterRestApplication extends Application {
 
     @PostConstruct
     public void init() {
-        singletons.add(new TestController());
+        singletons.add(new ParkingMeterRestController());
     }
 
     @Override

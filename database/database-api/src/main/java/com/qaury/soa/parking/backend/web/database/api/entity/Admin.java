@@ -1,27 +1,25 @@
 package com.qaury.soa.parking.backend.web.database.api.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "admins")
-public class Admin {
+public class Admin implements Serializable {
 
     @Id
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "auth_id", nullable = false, unique = true)
-    private String authId;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "auth_id")
+    private Auth auth;
 
     public Admin() {
     }
 
     public Admin(Integer id, String authId) {
         this.id = id;
-        this.authId = authId;
     }
 
     public Integer getId() {
@@ -32,11 +30,11 @@ public class Admin {
         this.id = id;
     }
 
-    public String getAuthId() {
-        return authId;
+    public Auth getAuth() {
+        return auth;
     }
 
-    public void setAuthId(String authId) {
-        this.authId = authId;
+    public void setAuth(Auth auth) {
+        this.auth = auth;
     }
 }

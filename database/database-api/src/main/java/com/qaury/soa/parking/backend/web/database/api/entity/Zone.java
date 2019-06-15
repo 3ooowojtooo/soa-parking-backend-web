@@ -1,11 +1,12 @@
 package com.qaury.soa.parking.backend.web.database.api.entity;
 
 import javax.persistence.*;
-import java.util.List;
+import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "zones")
-public class Zone {
+public class Zone implements Serializable {
 
     @Id
     @Column(name = "id")
@@ -18,8 +19,8 @@ public class Zone {
     @JoinColumn(name = "controller_id")
     private Controller controller;
 
-    @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL)
-    private List<ParkingPlace> parkingPlaceList;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "zone", cascade = CascadeType.ALL)
+    private Set<ParkingPlace> parkingPlaceList;
 
     public Zone() {
     }
@@ -74,11 +75,11 @@ public class Zone {
         }
     }
 
-    public List<ParkingPlace> getParkingPlaceList() {
+    public Set<ParkingPlace> getParkingPlaceList() {
         return parkingPlaceList;
     }
 
-    public void setParkingPlaceList(List<ParkingPlace> parkingPlaceList) {
+    public void setParkingPlaceList(Set<ParkingPlace> parkingPlaceList) {
         this.parkingPlaceList = parkingPlaceList;
     }
 }
