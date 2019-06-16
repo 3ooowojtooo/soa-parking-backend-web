@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.Root;
+import java.util.Date;
 
 @Singleton
 @Local(ITicketLocalDAO.class)
@@ -37,6 +38,15 @@ public class TicketDAO extends BaseDAO<Ticket> implements ITicketDAO {
         CriteriaDelete<Ticket> cd = cb.createCriteriaDelete(Ticket.class);
         Root<Ticket> root = cd.from(Ticket.class);
         cd.where(cb.equal(root.get("parkingPlace"), placeId));
+        getEntityManager().createQuery(cd).executeUpdate();
+    }
+
+    @Override
+    public void deleteExpiredTickets(int placeId) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaDelete<Ticket> cd = cb.createCriteriaDelete(Ticket.class);
+        Root<Ticket> root = cd.from(Ticket.class);
+        cd.where(cb.and(cb.equal(root.get("parkingPlace").get("id"), placeId), cb.lessThan(root.<Date>get("dateTo"), new Date())));
         getEntityManager().createQuery(cd).executeUpdate();
     }
 }

@@ -45,4 +45,9 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
     public T find(Integer id) {
         return getEntityManager().find(entityClass, id);
     }
+
+    @Override
+    public void flush() {
+        getEntityManager().flush();
+    }
 }
