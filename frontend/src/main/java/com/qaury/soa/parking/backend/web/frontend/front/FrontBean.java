@@ -1,29 +1,27 @@
 package com.qaury.soa.parking.backend.web.frontend.front;
 
+import com.google.gson.Gson;
 import com.qaury.soa.parking.backend.web.database.api.entity.Zone;
 import com.qaury.soa.parking.backend.web.database.api.exception.PasswordChangeException;
+import models.Notification;
 import org.primefaces.context.RequestContext;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.ApplicationScoped;
-import javax.faces.annotation.ManagedProperty;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Named
-@ApplicationScoped
-public class FrontBean {
+@SessionScoped
+public class FrontBean implements Serializable {
 
-    @EJB
-    private FrontDataConnectorEJB testEJB;
-
-    public String test() {
-        return String.valueOf(testEJB.getZonesForLoggedUser().size());
-    }
+    @EJB private FrontDataConnectorEJB testEJB;
 
     public boolean shouldAdminChannelBeRendered() {
         return FacesContext.getCurrentInstance().getExternalContext().isUserInRole("Admin");
@@ -34,10 +32,22 @@ public class FrontBean {
     }
 
     public void notification(){
+        Gson gson = new Gson();
         Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String message = params.get("msg");
-        if(message!=null) {
-            FacesMessage msg = new FacesMessage(message);
+        Notification notification = gson.fromJson(params.get("msg"),Notification.class);
+        if(notification!=null &&
+                getZones().stream().map(Zone::getId).collect(Collectors.toList()).contains(notification.getZoneId())) {
+            FacesMessage msg = new FacesMessage("Parking place: " + notification.getPlaceId().toString());
+            if(notification.getOccupied())
+                msg.setDetail("has been occupied");
+            else
+                msg.setDetail("has been freed");
+            if(notification.getOccupied() && notification.getNotPurchasedNotification())
+                msg.setDetail("is occupied but not paid");
+            if(notification.getOccupied() && notification.getTicketExpireNotification())
+                msg.setDetail("is occupied but the ticket has just expired");
+            if(notification.getOccupied() && notification.getTickets()!=null && !notification.getTickets().isEmpty())
+                msg.setDetail("is occupied and paid, ticket info: " + notification.getTickets().stream().map(t-> "Date: " + t.getDateFrom() + " - " + t.getDateTo()).collect(Collectors.joining()));
             FacesContext.getCurrentInstance().addMessage(null, msg);
             RequestContext.getCurrentInstance().update("msgs");
         }
