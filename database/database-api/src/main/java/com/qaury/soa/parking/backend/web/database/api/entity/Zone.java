@@ -2,7 +2,10 @@ package com.qaury.soa.parking.backend.web.database.api.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "zones")
@@ -77,6 +80,10 @@ public class Zone implements Serializable {
 
     public Set<ParkingPlace> getParkingPlaceList() {
         return parkingPlaceList;
+    }
+
+    public List<ParkingPlace> getSortedParkingPlaceList() {
+        return parkingPlaceList.stream().sorted(Comparator.comparing(ParkingPlace::getId)).collect(Collectors.toList());
     }
 
     public void setParkingPlaceList(Set<ParkingPlace> parkingPlaceList) {

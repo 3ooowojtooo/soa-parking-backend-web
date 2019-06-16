@@ -28,6 +28,7 @@ public class DashboardNotificationSender {
     Queue dashboardQueue;
 
     public void sendDashboardParkingPlaceUpdate(int parkingPlaceId) {
+        parkingPlaceRemoteDAO.flush();
         ParkingPlace parkingPlace = parkingPlaceRemoteDAO.find(parkingPlaceId);
         if (parkingPlace != null) {
             TextMessage textMessage = jmsContext.createTextMessage(prepareStringParkingPlaceDescription(parkingPlace));

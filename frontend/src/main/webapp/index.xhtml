@@ -4,24 +4,64 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xml:lang="en" lang="en"
+>
 
 <h:head>
     <h:outputScript>
         function notificationListener(message, channel, event) {
-            window.alert(message);
+            websocketCommand([{name:'msg', value:message.toString()}])
         }
     </h:outputScript>
 
 </h:head>
 <h:body>
-    <!--<f:websocket channel="adminDashboardChannel" rendered="#{frontBean.shouldAdminChannelBeRendered()}" onmessage="notificationListener"/>
-    <f:websocket channel="controllerDashboardChannel" rendered="#{frontBean.shouldControllerChannelBeRendered()}" onmessage="notificationListener"
-                 user="#{frontBean.userPrincipal}"/>-->
-    <f:websocket channel="dashboardChannel" onmessage="notificationListener"/>
-    <h:outputLabel value="#{frontBean.test()}" />
-    <h:outputLabel value="#{frontBean.shouldAdminChannelBeRendered()}" />
-    <h:outputLabel value="#{frontBean.shouldControllerChannelBeRendered()}" />
-    <h:outputLabel value="#{frontBean.userPrincipal}"/>
+    <f:websocket id="notification" update="msgs" channel="dashboardChannel" onmessage="notificationListener"/>
+    <h:form>
+        <p:remoteCommand name="websocketCommand" action="#{frontBean.notification}" update="zones"/>
+    </h:form>
+    <h:outputLabel value="#{dict['main.loggedInAs']} #{frontBean.userPrincipal}"/><br/>
+    <a href="${pageContext.request.contextPath}/frontend/logout">#{dict['main.logout']}</a>
+    <h:form>
+        <h:selectOneMenu value="#{language.localeCode}" onchange="submit()"
+                         valueChangeListener="#{language.countryLocaleCodeChanged}">
+            <f:selectItems value="#{language.countriesInMap}"/>
+        </h:selectOneMenu>
+    </h:form>
+    <p:growl id="msgs" showDetail="true"/>
+    <h:form id="passwordChangeForm">
+        <p:panel id="account" header="#{dict['account.panelTitle']}" style="margin-bottom:10px;">
+            <h:panelGrid columns="2">
+                <h:selectOneMenu binding="#{login}" style="width:100%">
+                    <f:selectItems value="#{frontBean.loginsForWhichLoggedUserCanChangePassword}"/>
+                </h:selectOneMenu>
+                <h:inputSecret binding="#{password}">
+                    <f:validateLength minimum="1"/>
+                </h:inputSecret>
+
+                <div style="text-align: center;">
+                    <p:commandButton ajax="false" value="#{dict['account.changePass']}" icon="ui-icon-disk"
+                                     action="#{frontBean.changePassword(login.value,password.value)}"/>
+                </div>
+            </h:panelGrid>
+        </p:panel>
+    </h:form>
+
+
+        <p:dataList id="zones" value="#{frontBean.zones}" var="zone" type="unordered" itemType="none" paginator="true" rows="1">
+            <f:facet name="header">
+                #{dict['dashboard.title']}
+            </f:facet>
+            <h:outputLabel value="#{dict['dashboard.zone']}: #{zone.id}"/>
+            <p:separator/>
+            <p:dataGrid id="parkingPlaces" value="#{zone.sortedParkingPlaceList}" var="place" columns="5"  >
+                <p>
+                    <h:outputText style="color: green" value="#{place.id}" rendered="#{!place.occupied}"/>
+                    <h:outputText style="color: red" value="#{place.id}" rendered="${place.occupied and !(place.notPurchasedNotification || place.ticketExpireNotification)}"/>
+                    <h:outputText style="color: blue" value="#{place.id}" rendered="${place.notPurchasedNotification || place.ticketExpireNotification}"/>
+                </p>
+            </p:dataGrid>
+        </p:dataList>
 </h:body>
 </html>

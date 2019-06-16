@@ -45,9 +45,10 @@ public class ParkingPlaceStatusUpdateMessageHandler {
         parkingPlaceRemoteDAO.edit(parkingPlace);
         if (!message.getOccupied()) {
             ticketDAO.deleteAllTicketsForPlaceId(message.getPlaceId());
-            parkingPlaceRemoteDAO.setPlaceTicketExpired(message.getPlaceId(), false);
-            parkingPlaceRemoteDAO.setPlaceTicketNotPurchased(message.getPlaceId(), false);
         }
+        parkingPlaceRemoteDAO.setPlaceTicketExpired(message.getPlaceId(), false);
+        parkingPlaceRemoteDAO.setPlaceTicketNotPurchased(message.getPlaceId(), false);
+        ticketDAO.deleteAllTicketsForPlaceId(message.getPlaceId());
     }
 
     private void handleSchedulers(ParkingPlaceStatusUpdateMessage message) {

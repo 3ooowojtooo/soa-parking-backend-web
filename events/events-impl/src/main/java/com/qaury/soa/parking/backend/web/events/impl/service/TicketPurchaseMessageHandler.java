@@ -42,6 +42,7 @@ public class TicketPurchaseMessageHandler {
         Ticket ticket = new Ticket(message.getTimestampFrom(), message.getTimestampTo());
         parkingPlace.addTicket(ticket);
         ticketRemoteDAO.persist(ticket);
+        parkingPlaceRemoteDAO.edit(parkingPlace);
         parkingPlaceRemoteDAO.setPlaceTicketNotPurchased(message.getPlaceId(), false);
         parkingPlaceRemoteDAO.setPlaceTicketExpired(message.getPlaceId(), false);
     }

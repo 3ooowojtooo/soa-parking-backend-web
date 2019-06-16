@@ -13,4 +13,6 @@ public interface IBaseDAO<T> {
     List<T> findAll();
 
     T find(Integer id);
+
+    void flush();
 }
