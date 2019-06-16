@@ -5,6 +5,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xml:lang="en" lang="en"
 >
 
 <h:head>
@@ -20,11 +21,17 @@
     <h:form>
         <p:remoteCommand name="websocketCommand" action="#{frontBean.notification}" update="zones"/>
     </h:form>
-    <h:outputLabel value="#{frontBean.userPrincipal}"/>
-    <a href="${pageContext.request.contextPath}/frontend/logout">Logout</a>
+    <h:outputLabel value="#{dict['main.loggedInAs']} #{frontBean.userPrincipal}"/><br/>
+    <a href="${pageContext.request.contextPath}/frontend/logout">#{dict['main.logout']}</a>
+    <h:form>
+        <h:selectOneMenu value="#{language.localeCode}" onchange="submit()"
+                         valueChangeListener="#{language.countryLocaleCodeChanged}">
+            <f:selectItems value="#{language.countriesInMap}"/>
+        </h:selectOneMenu>
+    </h:form>
     <p:growl id="msgs" showDetail="true"/>
     <h:form id="passwordChangeForm">
-        <p:panel id="account" header="Account management" style="margin-bottom:10px;">
+        <p:panel id="account" header="#{dict['account.panelTitle']}" style="margin-bottom:10px;">
             <h:panelGrid columns="2">
                 <h:selectOneMenu binding="#{login}" style="width:100%">
                     <f:selectItems value="#{frontBean.loginsForWhichLoggedUserCanChangePassword}"/>
@@ -34,7 +41,7 @@
                 </h:inputSecret>
 
                 <div style="text-align: center;">
-                    <p:commandButton ajax="false" value="Change Password" icon="ui-icon-disk"
+                    <p:commandButton ajax="false" value="#{dict['account.changePass']}" icon="ui-icon-disk"
                                      action="#{frontBean.changePassword(login.value,password.value)}"/>
                 </div>
             </h:panelGrid>
@@ -44,9 +51,9 @@
 
         <p:dataList id="zones" value="#{frontBean.zones}" var="zone" type="unordered" itemType="none" paginator="true" rows="1">
             <f:facet name="header">
-                Parking places
+                #{dict['dashboard.title']}
             </f:facet>
-            <h:outputLabel value="Zone: #{zone.id}"/>
+            <h:outputLabel value="#{dict['dashboard.zone']}: #{zone.id}"/>
             <p:separator/>
             <p:dataGrid id="parkingPlaces" value="#{zone.sortedParkingPlaceList}" var="place" columns="5"  >
                 <p>
